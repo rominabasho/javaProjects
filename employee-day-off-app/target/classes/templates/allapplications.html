@@ -1,0 +1,95 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<head>
+<title>All Applications</title>
+
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Applications</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8">
+
+				<H2>List of approved applications</H2>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Employee</th>
+							<th>Reason</th>
+							<th>From Date</th>
+							<th>To Date</th>
+							<th>No. of taken days</th>
+							<th>No. of remaining days</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${applications.empty}">
+							<td colspan="2">No applications available</td>
+						</tr>
+						<tr th:each="appl : ${applications}" th:if="${appl.approved}">
+							<td><span th:text="${appl.user.lastName}"> Employee </span></td>
+							<td><span th:text="${appl.description}"> Reason </span></td>
+							<td><span th:text="${appl.fromDate}"> From Date </span></td>
+							<td><span th:text="${appl.toDate}"> To Date </span></td>
+							<td><span th:text="${appl.noOfTakenDays}"> No. of
+									taken days </span></td>
+							<td><span th:text="${appl.noOfLeftDays}"> No. of
+									remaining days</span></td>
+						</tr>
+					</tbody>
+				</table>
+
+				<br></br>
+				<H2>List of unapproved applications</H2>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Employee</th>
+							<th>Reason</th>
+							<th>From Date</th>
+							<th>To Date</th>
+							<th>No. of taken days</th>
+							<th>No. of remaining days</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${applications.empty}">
+							<td colspan="2">No applications available</td>
+						</tr>
+						<tr th:each="appl : ${applications}" th:unless="${appl.approved}">
+							<td><span th:text="${appl.user.lastName}"> Employee </span></td>
+							<td><span th:text="${appl.description}"> Reason </span></td>
+							<td><span th:text="${appl.fromDate}"> From Date </span></td>
+							<td><span th:text="${appl.toDate}"> To Date </span></td>
+							<td><span th:text="${appl.noOfTakenDays}"> No. of
+									taken days </span></td>
+							<td><span th:text="${appl.noOfLeftDays}"> No. of
+									remaining days</span></td>
+							<td><a
+								th:href="@{/approveApplication(applicationId=${appl.id})}"
+								class="btn btn-danger">Approve</a></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+	<form th:action="@{/admin/home}" method="get">
+		<button class="btn btn-md btn-primary btn-block" name="registration"
+			type="Submit">Home</button>
+	</form>
+
+	<form th:action="@{/logout}" method="get">
+		<button class="btn btn-md btn-danger btn-block" name="registration"
+			type="Submit">Logout</button>
+	</form>
+	
+</body>
+</html>

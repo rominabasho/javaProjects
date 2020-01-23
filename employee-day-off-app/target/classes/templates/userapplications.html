@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<head>
+<title>All Applications</title>
+
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Applications</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8">
+
+				<H2>List of your applications</H2>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Reason</th>
+							<th>From Date</th>
+							<th>To Date</th>
+							<th>No. of taken days</th>
+							<th>No. of remaining days</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${applications.empty}">
+							<td colspan="2">No applications available</td>
+						</tr>
+						<tr th:each="appl : ${applications}">
+							<td><span th:text="${appl.description}"> Reason </span></td>
+							<td><span th:text="${appl.fromDate}"> From Date </span></td>
+							<td><span th:text="${appl.toDate}"> To Date </span></td>
+							<td><span th:text="${appl.noOfTakenDays}"> No. of
+									taken days </span></td>
+							<td><span th:text="${appl.noOfLeftDays}"> No. of
+									remaining days</span></td>
+							<td th:if="${appl.approved}"><span> Approved </span></td>
+							<td th:unless="${appl.approved}"><span> Not Approved
+							</span> <!--  		<form th:action="@{/updateapplication}" method="get">
+									<button class="btn btn-md btn-warning btn-block" type="Submit">
+										Update</button>--> <a
+								th:href="@{/updateapplication(applicationId=${appl.id})}"
+								class="btn btn-danger">Update</a> <!--</form>--> <a
+								th:href="@{/removeApplication(applicationId=${appl.id})}"
+								class="btn btn-danger">Delete</a></td>
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<form th:action="@{/admin/home}" method="get">
+		<button class="btn btn-md btn-primary btn-block" name="registration"
+			type="Submit">Home</button>
+	</form>
+
+	<form th:action="@{/logout}" method="get">
+		<button class="btn btn-md btn-danger btn-block" name="registration"
+			type="Submit">Logout</button>
+	</form>
+</body>
+</html>

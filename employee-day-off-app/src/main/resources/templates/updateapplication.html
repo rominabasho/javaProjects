@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Application Form</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/registration.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jQuery UI Datepicker - Default functionality</title>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $( function() {
+	  var dateFormat = "yy-mm-dd",
+	  from = $("#from")
+	  .datepicker({
+	    defaultDate: "+1w",
+	    changeMonth: true,
+	    dateFormat: dateFormat,
+	    minDate: new Date(),
+	  })
+	  .on("change", function() {
+	    var toMinDate = getDate(this);
+	    toMinDate.setDate(toMinDate.getDate() + 1);
+	    to.datepicker("option", "minDate", toMinDate);
+	  }),
+	  to = $("#to").datepicker({
+	    defaultDate: "+1w",
+	    changeMonth: true,
+	    dateFormat: dateFormat,
+	    minDate: new Date(),
+	  })
+	  .on("change", function() {
+	    var fromMaxDate = getDate(this);
+	    fromMaxDate.setDate(fromMaxDate.getDate() - 1);
+	    from.datepicker("option", "maxDate", fromMaxDate);
+	  });
+
+	function getDate(element) {
+	  var date;
+	  try {
+	    date = $.datepicker.parseDate(dateFormat, element.value);
+	  } catch (error) {
+	    date = null;
+	  }
+
+	  return date;
+	}
+  } );
+  </script>
+
+</head>
+<body>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<form autocomplete="on" action="#" th:action="@{/updateapplication}"
+					th:object="${application}" method="post" class="form-horizontal"
+					role="form">
+					<input type="hidden" th:field="*{id}" class="form-control" /> <input
+						type="hidden" th:field="*{user.id}" class="form-control" />
+						<input type="hidden" th:field="*{noOfTakenDays}" class="form-control" /> <input
+						type="hidden" th:field="*{noOfLeftDays}" class="form-control" />
+					<h2>Application Form</h2>
+					<div class="form-group">
+						<div class="col-sm-9">
+
+							Description: <input type="text" th:field="*{description}"
+								class="form-control" />
+
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-9">
+
+							From Date: <input type="text" id="from" th:field="*{fromDate}"
+								class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-9">
+							To Date: <input type="text" id="to" th:field="*{toDate}"
+								class="form-control" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-9">
+							<button type="submit" class="btn btn-primary btn-block">Send
+								Application</button>
+						</div>
+					</div>
+
+					<h2>
+						<span class="text-success" th:utext="${successMessage}"></span>
+					</h2>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+<title>Home Page</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jQuery UI Datepicker - Default functionality</title>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $( function() {
+	  var dateFormat = "dd-mm-yy",
+	  from = $("#from")
+	  .datepicker({
+	    defaultDate: "+1w",
+	    changeMonth: true,
+	    dateFormat: dateFormat,
+	    minDate: new Date(),
+	  })
+	  .on("change", function() {
+	    var toMinDate = getDate(this);
+	    toMinDate.setDate(toMinDate.getDate() + 1);
+	    to.datepicker("option", "minDate", toMinDate);
+	  }),
+	  to = $("#to").datepicker({
+	    defaultDate: "+1w",
+	    changeMonth: true,
+	    dateFormat: dateFormat,
+	    minDate: new Date(),
+	  })
+	  .on("change", function() {
+	    var fromMaxDate = getDate(this);
+	    fromMaxDate.setDate(fromMaxDate.getDate() - 1);
+	    from.datepicker("option", "maxDate", fromMaxDate);
+	  });
+
+	function getDate(element) {
+	  var date;
+	  try {
+	    date = $.datepicker.parseDate(dateFormat, element.value);
+	  } catch (error) {
+	    date = null;
+	  }
+
+	  return date;
+	}
+  } );
+  </script>
+
+</head>
+
+<body>
+	<div class="container">
+
+		<div class="panel-group" style="margin-top: 40px">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<span th:utext="${userName}"></span>
+				</div>
+			</div>
+			
+			<div sec:authorize="hasAuthority('USER')">
+			
+			<br>
+				
+				<form th:action="@{/createapplication}" method="get">
+			<button class="btn btn-md btn-warning btn-block" type="Submit">
+			Applicate for day-off/vacations </button>
+		</form>
+		
+		<br>
+		<form >
+			<a th:href="@{/userapplications}" class="btn btn-primary">My Applications</a>
+		</form>
+				
+				Logged in as User
+			</div>
+
+		</div>
+
+	</div>
+	<div sec:authorize="hasAuthority('ADMIN')">
+		Logged in as ADMIN
+		<form th:action="@{/registration}" method="get">
+			<button class="btn btn-md btn-warning btn-block" type="Submit">Register
+				a new user</button>
+		</form>
+		
+		<form th:action="@{/allapplications}" method="get">
+			<button class="btn btn-md btn-warning btn-block" type="Submit">
+			View all applications </button>
+		</form>
+		
+	</div>
+
+	<form th:action="@{/logout}" method="get">
+		<button class="btn btn-md btn-danger btn-block" name="registration"
+			type="Submit">Logout</button>
+	</form>
+
+</body>
+</html>
